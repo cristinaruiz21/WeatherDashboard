@@ -31,18 +31,22 @@
                     <i class="fas fa-search"></i>
                   </button>
                   <!--Cities will end up here after searched-->
-                  <div class="search-history-buttons"></div>
+                  <div class="search-history-buttons">
+                      <ul class="history"></ul>
+                  </div>
                 </form>
               </nav>
           </div>
           <div class="city col-md-8">
             <h1 class="city-name"></h1>
             <div class="date"></div>
-            <div class="icon"></div>
+            <div class="icon">
+                <img id="icon"/>
+            </div>
             <div class="tempF"></div>
             <div class="humidity"></div>
             <div class="wind"></div>
-            <div class="UV"></div>
+            <div class="UV"><span id="UV"></span></div>
           </div>
             <div class="row">
                 <div class="forecast col-md-2">
@@ -80,14 +84,19 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
+        function createButton(city){
+            var li = $("<li>").text(city)
+            $(".history").append(li);
+        }
 
-        $("#submit-btn").on("click", function(event) {
+        $(".history").on("click","li", function(){
+            getToday($(this).text());
+        })
 
-            event.preventDefault();
 
-        // Here we grab the text from the input box
-        var city = $("#city-input").val().trim();
-
+        function getToday(city){
+        
+        createButton(city);
         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=5c1b8ccfd0b25920d2886f7cf32becbc";
 
         $.ajax({
@@ -105,7 +114,7 @@
         $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
         $(".humidity").text("Humidity: " + response.main.humidity + "%");
         // $("UV").text("UV Index " + response.main
-        $(".icon").html(response.weather.object);
+        $("#icon").attr("src","http://openweathermap.org/img/w/"+ response.weather[0].icon + ".png");
 
         // Convert the temp to fahrenheit
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
@@ -119,6 +128,77 @@
         console.log("Humidity: " + response.main.humidity);
         console.log("Temperature (F): " + tempF);
 
+        $.ajax({
+            url: "http://api.openweathermap.org/data/2.5/uvi?lat="+ response.coord.lat+ "&lon="+ response.coord.lon+"&appid=5c1b8ccfd0b25920d2886f7cf32becbc",
+            method: "GET"
+        }).then(function(response){
+            $("#UV").text("UV index: " + response.value);
+            if(response.value < 3){
+                $("#UV").addClass("bg-success");
+            }
+            else if ( response.value < 7){
+                $("#UV").addClass("btn-warning");
+            }
+            else{
+                $("#UV").addClass("btn-danger");
+            }
+        })
+        })}
+        $("#submit-btn").on("click", function(event) {
+            var city = $("#city-input").val().trim();
+            event.preventDefault();
+            getToday(city)
+
+        // Here we grab the text from the input box
+        // var city = $("#city-input").val().trim();
+        // createButton(city);
+        // var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=5c1b8ccfd0b25920d2886f7cf32becbc";
+
+        // $.ajax({
+        // url: queryURL,
+        // method: "GET"
+        // }).then(function(response) {
+        // console.log(queryURL);
+
+        // // Log the resulting object
+        // console.log(response);
+
+        // // Transfer content to HTML
+        // $(".city-name").html("<h1>" + response.name + "</h1>");
+        // $(".date").text(moment().format('l'));
+        // $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
+        // $(".humidity").text("Humidity: " + response.main.humidity + "%");
+        // // $("UV").text("UV Index " + response.main
+        // $("#icon").attr("src","http://openweathermap.org/img/w/"+ response.weather[0].icon + ".png");
+
+        // // Convert the temp to fahrenheit
+        // var tempF = (response.main.temp - 273.15) * 1.80 + 32;
+
+        // // add temp content to html
+        // $(".temp").text("Temperature (K) " + response.main.temp);
+        // $(".tempF").text("Temperature (F): " + tempF.toFixed(2));
+
+        // // Log the data in the console as well
+        // console.log("Wind Speed: " + response.wind.speed);
+        // console.log("Humidity: " + response.main.humidity);
+        // console.log("Temperature (F): " + tempF);
+
+        // $.ajax({
+        //     url: "http://api.openweathermap.org/data/2.5/uvi?lat="+ response.coord.lat+ "&lon="+ response.coord.lon+"&appid=5c1b8ccfd0b25920d2886f7cf32becbc",
+        //     method: "GET"
+        // }).then(function(response){
+        //     $("#UV").text("UV index: " + response.value);
+        //     if(response.value < 3){
+        //         $("#UV").addClass("bg-success");
+        //     }
+        //     else if ( response.value < 7){
+        //         $("#UV").addClass("btn-warning");
+        //     }
+        //     else{
+        //         $("#UV").addClass("btn-danger");
+        //     }
+        // })
+
         var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=5c1b8ccfd0b25920d2886f7cf32becbc";
 
         $.ajax({
@@ -129,8 +209,20 @@
 
         // Log the resulting object
         console.log(response);
-        // $(".date-forecast").text(moment().format('l'));
+        $(".date-forecast").text(moment().add(1, 'days').calendar());
         $(".humidity-forecast").text("Humidity: " + response.list[1].main.humidity + "%");
+        // $(".icon").html(response.weather.object);
+        $(".date-forecast-2").text(moment().add(2, 'days').calendar());
+        $(".humidity-forecast-2").text("Humidity: " + response.list[2].main.humidity + "%");
+        // $(".icon").html(response.weather.object);
+        $(".date-forecast-3").text(moment().add(3, 'days').calendar());
+        $(".humidity-forecast-3").text("Humidity: " + response.list[3].main.humidity + "%");
+        // $(".icon").html(response.weather.object);
+        $(".date-forecast-4").text(moment().add(4, 'days').calendar());
+        $(".humidity-forecast-4").text("Humidity: " + response.list[4].main.humidity + "%");
+        // $(".icon").html(response.weather.object);
+        $(".date-forecast-5").text(moment().add(5, 'days').calendar());
+        $(".humidity-forecast-5").text("Humidity: " + response.list[5].main.humidity + "%");
         // $(".icon").html(response.weather.object);
 
         // Convert the temp to fahrenheit
@@ -142,9 +234,11 @@
 
 
         
-        });
+        }).then(function(response){
+
         })
         })
+        // })
 
     </script>
 
