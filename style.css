@@ -5,3 +5,34 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     height: 150px;
 }
+.search-history-buttons li  {
+    float: left;
+  list-style: none;
+  text-align: center;
+  background-color:white;
+  color: black;
+  margin-right: 30px;
+  width: 150px;
+  line-height: 60px;
+  border-style: solid;
+  border-width: 0.2mm;
+  }
+  
+  .search-history-buttons li:hover {
+    text-decoration: none;
+    color: #000000;
+    background-color: #33B5E5;
+  }
+  .forecast{
+      border-style: solid;
+      border-width: 2mm;
+      background-color: blue;
+      color: white;
+  }
+  .city{
+      border-style: solid;
+      border-width: 0.5mm;
+  }
+  .hide{
+      display: none;
+  }

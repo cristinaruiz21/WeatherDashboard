@@ -37,7 +37,7 @@
                 </form>
               </nav>
           </div>
-          <div class="city col-md-8">
+          <div class="city col-md-8 hide" id="city-container">
             <h1 class="city-name"></h1>
             <div class="date"></div>
             <div class="icon">
@@ -48,34 +48,44 @@
             <div class="wind"></div>
             <div class="UV"><span id="UV"></span></div>
           </div>
-            <div class="row">
+            <div class="row hide" id="forecast">
                 <div class="forecast col-md-2">
                     <div class="date-forecast"></div>
-                    <div class="icon-forecast"></div>
+                    <div class="icon-forecast">
+                        <img id="icon1"/>
+                    </div>
                     <div class="tempF-forecast"></div>
                     <div class="humidity-forecast"></div>
                 </div>
                 <div class="forecast col-md-2">
                     <div class="date-forecast-2"></div>
-                    <div class="icon-forecast-2"></div>
+                    <div class="icon-forecast-2">
+                        <img id="icon2"/>
+                    </div>
                     <div class="tempF-forecast-2"></div>
                     <div class="humidity-forecast-2"></div>
                 </div>
                 <div class="forecast col-md-2">
                     <div class="date-forecast-3"></div>
-                    <div class="icon-forecast-3"></div>
+                    <div class="icon-forecast-3">
+                        <img id="icon3"/>
+                    </div>
                     <div class="tempF-forecast-3"></div>
                     <div class="humidity-forecast-3"></div>
                 </div>
                 <div class="forecast col-md-2">
                     <div class="date-forecast-4"></div>
-                    <div class="icon-forecast-4"></div>
+                    <div class="icon-forecast-4">
+                        <img id="icon4"/>
+                    </div>
                     <div class="tempF-forecast-4"></div>
                     <div class="humidity-forecast-4"></div>
                 </div>
                 <div class="forecast col-md-2">
                     <div class="date-forecast-5"></div>
-                    <div class="icon-forecast-5"></div>
+                    <div class="icon-forecast-5">
+                        <img id="icon5"/>
+                    </div>
                     <div class="tempF-forecast-5"></div>
                     <div class="humidity-forecast-5"></div>
                 </div>
@@ -148,56 +158,8 @@
             var city = $("#city-input").val().trim();
             event.preventDefault();
             getToday(city)
-
-        // Here we grab the text from the input box
-        // var city = $("#city-input").val().trim();
-        // createButton(city);
-        // var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=5c1b8ccfd0b25920d2886f7cf32becbc";
-
-        // $.ajax({
-        // url: queryURL,
-        // method: "GET"
-        // }).then(function(response) {
-        // console.log(queryURL);
-
-        // // Log the resulting object
-        // console.log(response);
-
-        // // Transfer content to HTML
-        // $(".city-name").html("<h1>" + response.name + "</h1>");
-        // $(".date").text(moment().format('l'));
-        // $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
-        // $(".humidity").text("Humidity: " + response.main.humidity + "%");
-        // // $("UV").text("UV Index " + response.main
-        // $("#icon").attr("src","http://openweathermap.org/img/w/"+ response.weather[0].icon + ".png");
-
-        // // Convert the temp to fahrenheit
-        // var tempF = (response.main.temp - 273.15) * 1.80 + 32;
-
-        // // add temp content to html
-        // $(".temp").text("Temperature (K) " + response.main.temp);
-        // $(".tempF").text("Temperature (F): " + tempF.toFixed(2));
-
-        // // Log the data in the console as well
-        // console.log("Wind Speed: " + response.wind.speed);
-        // console.log("Humidity: " + response.main.humidity);
-        // console.log("Temperature (F): " + tempF);
-
-        // $.ajax({
-        //     url: "http://api.openweathermap.org/data/2.5/uvi?lat="+ response.coord.lat+ "&lon="+ response.coord.lon+"&appid=5c1b8ccfd0b25920d2886f7cf32becbc",
-        //     method: "GET"
-        // }).then(function(response){
-        //     $("#UV").text("UV index: " + response.value);
-        //     if(response.value < 3){
-        //         $("#UV").addClass("bg-success");
-        //     }
-        //     else if ( response.value < 7){
-        //         $("#UV").addClass("btn-warning");
-        //     }
-        //     else{
-        //         $("#UV").addClass("btn-danger");
-        //     }
-        // })
+            $("#city-container").removeClass("hide");
+            $("#forecast").removeClass("hide");
 
         var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=5c1b8ccfd0b25920d2886f7cf32becbc";
 
@@ -211,19 +173,23 @@
         console.log(response);
         $(".date-forecast").text(moment().add(1, 'days').calendar());
         $(".humidity-forecast").text("Humidity: " + response.list[1].main.humidity + "%");
-        // $(".icon").html(response.weather.object);
+        $("#icon1").attr("src","http://openweathermap.org/img/w/"+ response.list[1].weather[0].icon + ".png");
+
         $(".date-forecast-2").text(moment().add(2, 'days').calendar());
         $(".humidity-forecast-2").text("Humidity: " + response.list[2].main.humidity + "%");
-        // $(".icon").html(response.weather.object);
+        $("#icon2").attr("src","http://openweathermap.org/img/w/"+ response.list[2].weather[0].icon + ".png");
+
         $(".date-forecast-3").text(moment().add(3, 'days').calendar());
         $(".humidity-forecast-3").text("Humidity: " + response.list[3].main.humidity + "%");
-        // $(".icon").html(response.weather.object);
+        $("#icon3").attr("src","http://openweathermap.org/img/w/"+ response.list[3].weather[0].icon + ".png");;
+
         $(".date-forecast-4").text(moment().add(4, 'days').calendar());
         $(".humidity-forecast-4").text("Humidity: " + response.list[4].main.humidity + "%");
-        // $(".icon").html(response.weather.object);
+        $("#icon4").attr("src","http://openweathermap.org/img/w/"+ response.list[4].weather[0].icon + ".png");
+
         $(".date-forecast-5").text(moment().add(5, 'days').calendar());
         $(".humidity-forecast-5").text("Humidity: " + response.list[5].main.humidity + "%");
-        // $(".icon").html(response.weather.object);
+        $("#icon5").attr("src","http://openweathermap.org/img/w/"+ response.list[5].weather[0].icon + ".png");
 
         // Convert the temp to fahrenheit
         var tempF = (response.list[1].main.temp - 273.15) * 1.80 + 32;
@@ -231,6 +197,30 @@
         // add temp content to html
         $(".temp").text("Temperature (K) " + response.list[1].main.temp);
         $(".tempF-forecast").text("Temperature (F): " + tempF.toFixed(2));
+
+        var tempF = (response.list[2].main.temp - 273.15) * 1.80 + 32;
+
+        // add temp content to html
+        $(".temp").text("Temperature (K) " + response.list[2].main.temp);
+        $(".tempF-forecast-2").text("Temperature (F): " + tempF.toFixed(2)); 
+
+        var tempF = (response.list[3].main.temp - 273.15) * 1.80 + 32;
+
+        // add temp content to html
+        $(".temp").text("Temperature (K) " + response.list[3].main.temp);
+        $(".tempF-forecast-3").text("Temperature (F): " + tempF.toFixed(2)); 
+
+        var tempF = (response.list[4].main.temp - 273.15) * 1.80 + 32;
+
+        // add temp content to html
+        $(".temp").text("Temperature (K) " + response.list[4].main.temp);
+        $(".tempF-forecast-4").text("Temperature (F): " + tempF.toFixed(2));
+
+        var tempF = (response.list[5].main.temp - 273.15) * 1.80 + 32;
+
+        // add temp content to html
+        $(".temp").text("Temperature (K) " + response.list[5].main.temp);
+        $(".tempF-forecast-5").text("Temperature (F): " + tempF.toFixed(2));
 
 
         
