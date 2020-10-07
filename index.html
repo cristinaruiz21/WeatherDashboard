@@ -48,6 +48,9 @@
             <div class="wind"></div>
             <div class="UV"><span id="UV"></span></div>
           </div>
+          <div class="row hide" id="day-forecast">
+              <h1>5-Day Forecast:</h1>
+          </div>
             <div class="row hide" id="forecast">
                 <div class="forecast col-md-2">
                     <div class="date-forecast"></div>
@@ -153,14 +156,6 @@
                 $("#UV").addClass("btn-danger");
             }
         })
-        })}
-        $("#submit-btn").on("click", function(event) {
-            var city = $("#city-input").val().trim();
-            event.preventDefault();
-            getToday(city)
-            $("#city-container").removeClass("hide");
-            $("#forecast").removeClass("hide");
-
         var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=5c1b8ccfd0b25920d2886f7cf32becbc";
 
         $.ajax({
@@ -224,9 +219,17 @@
 
 
         
-        }).then(function(response){
-
         })
+        })}
+        $("#submit-btn").on("click", function(event) {
+            var city = $("#city-input").val().trim();
+            event.preventDefault();
+            getToday(city)
+            $("#city-container").removeClass("hide");
+            $("#forecast").removeClass("hide");
+            $("#day-forecast").removeClass("hide");
+
+        
         })
         // })
 
