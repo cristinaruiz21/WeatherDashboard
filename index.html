@@ -94,7 +94,7 @@
                 </div>
             </div>
         </div>
-    </div>
+        </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript">
         function createButton(city){
@@ -126,7 +126,6 @@
         $(".date").text(moment().format('l'));
         $(".wind").text("Wind Speed: " + response.wind.speed + " MPH");
         $(".humidity").text("Humidity: " + response.main.humidity + "%");
-        // $("UV").text("UV Index " + response.main
         $("#icon").attr("src","https://openweathermap.org/img/w/"+ response.weather[0].icon + ".png");
 
         // Convert the temp to fahrenheit
